@@ -20,34 +20,34 @@ namespace Product_Crud.Controllers
             _productService = productService;
         }
         [HttpPost("add-product")]
-        public IActionResult AddProduct([FromBody]ProductVM product)
+        public async Task<IActionResult> AddProduct([FromBody]ProductVM product)
         {
-             _productService.AddProduct(product);
+            await _productService.AddProduct(product);
             return Ok();
         }
         [HttpGet("Get-all-product")]
-        public IActionResult GetAllProduct()
+        public async Task<IActionResult> GetAllProduct()
         {
-            var allProduct = _productService.GetAllProduct();
+            var allProduct = await _productService.GetAllProduct();
             return Ok(allProduct);
         }
 
         [HttpGet("Get-product-by-id/{id}")]
-        public IActionResult GetProductById(int id)
+        public async Task<IActionResult> GetProductById(int id)
         {
-            var product = _productService.GetProductById(id);
+            var product = await _productService.GetProductById(id);
             return Ok(product);
         }
         [HttpPut("update-product-by-id/{id}")]
-        public IActionResult UpdateProductById(int id, [FromBody]ProductVM product)
+        public async Task<IActionResult> UpdateProductById(int id, [FromBody]ProductVM product)
         {
-            var updateBook = _productService.UpdateProductById(id, product);
+            var updateBook = await _productService.UpdateProductById(id, product);
             return Ok(updateBook);
         }
         [HttpDelete("delete-book-by-id/{id}")]
-        public IActionResult DeleteBookById(int id)
+        public async Task<IActionResult> DeleteBookById(int id)
         {
-            _productService.DeleteBookById(id);
+            await _productService.DeleteBookById(id);
             return Ok();
         }
     }

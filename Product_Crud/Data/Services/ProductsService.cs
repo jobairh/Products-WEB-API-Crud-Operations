@@ -1,4 +1,5 @@
-﻿using Product_Crud.Data.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Product_Crud.Data.Models;
 using Product_Crud.Data.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Product_Crud.Data.Services
             _context = context;
         }
 
-        public void AddProduct(ProductVM product)
+        public async Task AddProduct(ProductVM product)
         {
             var _product = new Product()
             {
@@ -26,23 +27,23 @@ namespace Product_Crud.Data.Services
                 DateRead = DateTime.Now
             };
             _context.Products.Add(_product);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        public List<Product> GetAllProduct()
+        public async Task<List<Product>> GetAllProduct()
         {
-            var allProduct = _context.Products.ToList();
+            var allProduct = await _context.Products.ToListAsync();
             return allProduct;
         }
 
-        public Product GetProductById(int productId)
+        public async Task<Product> GetProductById(int productId)
         {
-            return _context.Products.FirstOrDefault(n => n.Id == productId);
+            return await _context.Products.FirstOrDefaultAsync(n => n.Id == productId);
             
         }
 
-        public Product UpdateProductById(int productId, ProductVM product)
+        public async Task<Product> UpdateProductById(int productId, ProductVM product)
         {
-            var updateProduct = _context.Products.FirstOrDefault(n => n.Id == productId);
+            var updateProduct = await _context.Products.FirstOrDefaultAsync(n => n.Id == productId);
              if(updateProduct != null)
             {
                 updateProduct.ItemName = product.ItemName;
@@ -51,18 +52,18 @@ namespace Product_Crud.Data.Services
                 updateProduct.ProductMade = product.ProductMade;
                 updateProduct.DateRead = DateTime.Now;
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             return updateProduct;
         }
 
-        public void DeleteBookById(int ProductId)
+        public async Task DeleteBookById(int ProductId)
         {
-            var _product = _context.Products.FirstOrDefault(n => n.Id == ProductId);
+            var _product = await _context.Products.FirstOrDefaultAsync(n => n.Id == ProductId);
             if(_product != null)
             {
                 _context.Products.Remove(_product);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             
 
